@@ -1,0 +1,113 @@
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.header {
+  text-align: center;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.title {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: var(--text-main);
+  letter-spacing: -0.01em;
+  margin-bottom: 8px;
+}
+
+.subtitle {
+  font-size: 1.05rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  margin-bottom: 24px;
+}
+
+.tabs {
+  display: inline-flex;
+  background-color: var(--bg-surface-elevated);
+  border: 1px solid var(--border-color);
+  padding: 6px;
+  border-radius: var(--radius-full);
+  gap: 8px;
+}
+
+.tabBtn {
+  padding: 10px 24px;
+  border-radius: var(--radius-full);
+  font-weight: 700;
+  font-size: 0.95rem;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  transition: all var(--transition-fast);
+}
+
+.activeVeg {
+  background-color: #0aa84f !important;
+  color: #ffffff !important;
+  box-shadow: var(--shadow-sm);
+}
+
+.activeNonVeg {
+  background-color: #d21f1f !important;
+  color: #ffffff !important;
+  box-shadow: var(--shadow-sm);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 20px;
+}
+
+.menuCard {
+  transition: transform var(--transition-fast);
+}
+
+.vegBorder {
+  border-left: 5px solid #0aa84f !important;
+}
+
+.nonvegBorder {
+  border-left: 5px solid #d21f1f !important;
+}
+
+.itemList {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 0.95rem;
+  color: var(--text-main);
+  line-height: 1.4;
+}
+
+.bullet {
+  color: #0aa84f;
+  font-weight: bold;
+}
+
+.nonvegBorder .bullet {
+  color: #d21f1f;
+}
+
+.customNotice {
+  text-align: center;
+  background-color: var(--color-primary-light);
+  border: 1px dashed var(--color-primary);
+  border-radius: var(--radius-md);
+  padding: 16px 20px;
+  font-size: 0.95rem;
+  color: var(--text-main);
+}

@@ -1,0 +1,23 @@
+import react from '@vitejs/plugin-react'
+import { fileURLToPath, URL } from 'node:url'
+import { defineConfig } from 'vite'
+import { adminAuthPlugin } from './src/server/adminAuthPlugin.js'
+
+// https://vite.dev/config/
+export default defineConfig({
+  plugins: [react(), adminAuthPlugin()],
+  server: {
+    host: '0.0.0.0',
+    port: 5173,
+  },
+  preview: {
+    host: '0.0.0.0',
+    port: 5173,
+  },
+  resolve: {
+    alias: {
+      '@': fileURLToPath(new URL('./src', import.meta.url)),
+    },
+  },
+})
+
