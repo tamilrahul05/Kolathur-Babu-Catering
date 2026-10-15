@@ -12,9 +12,18 @@ function checkIsAdminRoute() {
   )
 }
 
+function getBasePath() {
+  if (typeof window !== 'undefined') {
+    const pathname = window.location.pathname.toLowerCase()
+    if (pathname.includes('/kolathur-babu-catering')) {
+      return '/Kolathur-Babu-Catering'
+    }
+  }
+  return ''
+}
+
 function getNavigationPath(target) {
-  const isProd = import.meta.env.PROD
-  const basePath = isProd ? '/Kolathur-Babu-Catering' : ''
+  const basePath = getBasePath()
   if (target === '/') {
     return basePath ? `${basePath}/` : '/'
   }
