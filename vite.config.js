@@ -82,6 +82,15 @@ function githubPagesPlugin() {
             .replace(/href="\/Kolathur-Babu-Catering\/favicon/g, 'href="../favicon')
           fs.writeFileSync(path.join(adminDir, 'index.html'), adminHtml)
 
+          // Keep legacy hash files in dist for browsers with cached HTML
+          const legacyFiles = ['index-DBxzTutF.js', 'index-Bo0-YI3Y.css']
+          for (const lf of legacyFiles) {
+            const srcLegacy = path.join(rootDir, 'assets', lf)
+            if (fs.existsSync(srcLegacy) && fs.existsSync(distAssets)) {
+              fs.copyFileSync(srcLegacy, path.join(distAssets, lf))
+            }
+          }
+
           // 3. Mirror everything to docs/ directory
           copyDirRecursive(distDir, docsDir)
 
