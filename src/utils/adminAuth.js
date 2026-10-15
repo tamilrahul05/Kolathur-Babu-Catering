@@ -60,23 +60,24 @@ export async function loginAdmin(id, password) {
         sessionStorage.setItem(SESSION_TOKEN_KEY, data.token)
         return { success: true }
       }
-    } else {
+    } else if (response.status !== 404) {
       const errData = await response.json().catch(() => ({}))
       return {
         success: false,
         message: errData.message || 'Invalid ID or Password',
       }
     }
-  } catch (networkError) {
-    // If backend endpoint is unreachable (e.g. purely static export environment),
-    // use one-way cryptographic SHA-256 verification (plain password is NEVER exposed)
-    const passHash = await computeSha256(trimmedPass)
-    if (trimmedId.toLowerCase() === FALLBACK_ID && passHash === FALLBACK_PASS_HASH) {
-      const fallbackToken = 'sec_' + Math.random().toString(36).substring(2) + Date.now().toString(36)
-      sessionStorage.setItem(SESSION_TOKEN_KEY, fallbackToken)
-      return { success: true }
-    }
-    return { success: false, message: 'Invalid ID or Password' }
+  } catch {
+    // Backend API unreachable - proceed to static cryptographic verification
+  }
+
+  // If backend endpoint is unreachable or 404 (purely static export environment like GitHub Pages),
+  // use one-way cryptographic SHA-256 verification (plain password is NEVER exposed)
+  const passHash = await computeSha256(trimmedPass)
+  if (trimmedId.toLowerCase() === FALLBACK_ID && passHash === FALLBACK_PASS_HASH) {
+    const fallbackToken = 'sec_' + Math.random().toString(36).substring(2) + Date.now().toString(36)
+    sessionStorage.setItem(SESSION_TOKEN_KEY, fallbackToken)
+    return { success: true }
   }
 
   return { success: false, message: 'Invalid ID or Password' }
@@ -109,6 +110,10 @@ export async function verifyAdminSession() {
         Authorization: `Bearer ${token}`,
       },
     })
+    if (response.status === 404) {
+      // Purely static deployment (e.g. GitHub Pages)
+      return Boolean(token && token.length > 8)
+    }
     if (!response.ok) {
       clearAdminSession()
       return false
@@ -116,7 +121,7 @@ export async function verifyAdminSession() {
     return true
   } catch {
     // Network unavailable, retain existing valid session token
-    return Boolean(token)
+    return Boolean(token && token.length > 8)
   }
 }
 
