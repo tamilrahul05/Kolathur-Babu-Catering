@@ -82,6 +82,9 @@ function githubPagesPlugin() {
             .replace(/href="\/Kolathur-Babu-Catering\/favicon/g, 'href="../favicon')
           fs.writeFileSync(path.join(adminDir, 'index.html'), adminHtml)
 
+          const distAssets = path.join(distDir, 'assets')
+          const rootAssets = path.join(rootDir, 'assets')
+
           // Keep legacy hash files in dist for browsers with cached HTML
           const legacyFiles = ['index-DBxzTutF.js', 'index-Bo0-YI3Y.css']
           for (const lf of legacyFiles) {
@@ -95,8 +98,6 @@ function githubPagesPlugin() {
           copyDirRecursive(distDir, docsDir)
 
           // 4. Mirror assets, 404.html, admin, public icons, and .nojekyll to project root
-          const distAssets = path.join(distDir, 'assets')
-          const rootAssets = path.join(rootDir, 'assets')
           if (fs.existsSync(distAssets)) {
             copyDirRecursive(distAssets, rootAssets)
           }
